@@ -329,3 +329,88 @@ img { max-width: 100%; height: auto; }
   .promises { grid-template-columns: 1fr 1fr 1fr; }
   .article-body h1 { font-size: 1.8rem; }
 }
+
+/* ---------- 動き・演出（2026-11-26追加） ---------- */
+/* ヒーロー画像：ゆっくりズームしながらフェードイン */
+.hero-visual {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-bottom: 30px;
+  position: relative;
+  animation: heroFade 1.6s ease-out both;
+}
+.hero-visual img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
+  animation: kenburns 24s ease-in-out infinite alternate;
+}
+.hero-visual::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(11,11,13,0.55));
+  pointer-events: none;
+}
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.09); }
+}
+@keyframes heroFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.hero h1, .hero .tagline, .hero .cta-row, .hero .flame, .hero .gold-dot {
+  animation: fadeUp 0.9s ease-out both;
+}
+.hero .tagline { animation-delay: 0.15s; }
+.hero .cta-row { animation-delay: 0.3s; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* スクロールでふわっと現れる */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* 記事カードのサムネイル */
+.article-item { overflow: hidden; padding: 0; }
+.article-item a { padding: 0; }
+.article-item .thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+.article-item:hover .thumb { transform: scale(1.04); }
+.article-item .item-body { padding: 14px 18px 16px; }
+
+/* 記事ページのカバー画像 */
+.cover-img {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  margin: 4px 0 24px;
+  animation: heroFade 1.4s ease-out both;
+}
+
+/* ボタン・カードのホバーに動き */
+.btn { transition: background 0.25s ease, transform 0.25s ease; }
+.btn:hover { transform: translateY(-2px); }
+.promise, .product { transition: transform 0.3s ease, border-color 0.3s ease; }
+.promise:hover, .product:hover { transform: translateY(-3px); border-color: var(--gold); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-visual img, .hero h1, .hero .tagline, .hero .cta-row,
+  .hero .flame, .hero .gold-dot, .cover-img { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
